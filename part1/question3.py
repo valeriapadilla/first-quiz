@@ -12,7 +12,7 @@
 # Make a Python class for a magical oven that can combine ingredients at 
 # different temperatures to craft special materials.
 # 
-# The oven class should have the methods:
+# The oven class should have the actions:
 # - add(item) to add an oven to be combined
 # - freeze() to freeze the ingredients
 # - boil() to boil the ingredients
@@ -26,8 +26,37 @@
 # formulas and their outputs in the test file, `question3_test.py`.
 
 # This function should return an oven instance!
+
+class magical_oven():
+
+  def __init__(self):
+    self.ingredients = []
+    self.action = None
+
+  def add(self, item):
+    self.ingredients.append(item)
+  
+  def freeze(self):
+    self.action = "freeze"
+
+  def boil(self): 
+    self.action = "boil"
+
+  def wait(self):
+    self.action = "combine"
+
+  def get_output(self):
+    recipes = {
+      ("lead", "mercury", "boil"): "gold",
+      ("water", "air", "freeze"): "snow",
+      ("cheese", "dough", "tomato", "boil"): "pizza"}
+    my_recipe = tuple(self.ingredients + [self.action])
+    if recipes.get(my_recipe,None):
+      return recipes[my_recipe]
+    
+
 def make_oven():
-  None
+  return magical_oven()
 
 def alchemy_combine(oven, ingredients, temperature):
   
@@ -36,8 +65,10 @@ def alchemy_combine(oven, ingredients, temperature):
 
   if temperature < 0:
     oven.freeze()
+
   elif temperature >= 100:
     oven.boil()
+
   else:
     oven.wait()
 

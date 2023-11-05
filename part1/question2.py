@@ -15,7 +15,17 @@
 # it. As always, there is a test suite that checks the result. It is in 
 # `question2_test.py.`
 
-swapper = None
+def swap(_tuple):
+  n, m  = _tuple
+  return m, n
+
+swapper = swap
 
 def run_swapper(list_of_tuples):
-  return list(map(swapper, list_of_tuples))
+  return [swap(e) for e in list_of_tuples]
+
+
+
+
+
+
