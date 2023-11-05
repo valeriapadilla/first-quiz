@@ -43,16 +43,17 @@ where a.age > p.age
 # Part 4.C: BONUS CHALLENGE! 
 # Write SQL to select the pets that are owned by Bessie and nobody else.
 # The output should be a list of tuples in the format: (<person name>, <pet name>, <species>)
-sql_only_owned_by_bessie = """ 
-SELECT people.name, pet.name, pet.species
-FROM people as p
-JOIN animals as a on p.person_id = a.owner_id
-WHERE person.name = 'bessie'
-AND NOT EXISTS (
-    SELECT p.name
+sql_only_owned_by_bessie = """
+SELECT p.name, a.name, a.species
+FROM people p 
+JOIN people_animals pa ON p.person_id = pa.owner_id
+JOIN animals a ON pa.pet_id = a.animal_id
+WHERE p.name = 'bessie'
+AND a.animal_id NOT IN (
+    SELECT pa.pet_id
     FROM people_animals pa
-    INNER JOIN animals a on pa.pet_id = a.animal_id
-    INNER JOIN people as p on pa.owner_id = p.person_id
-    WHERE pa.pet_id = a.animal_id
-    AND pa.owner_id != p.person_id
+    JOIN people p_sub ON pa.owner_id = p_sub.person_id
+    JOIN animals a ON pa.pet_id = a.animal_id
+    WHERE p_sub.name != 'bessie'
+);
 """
